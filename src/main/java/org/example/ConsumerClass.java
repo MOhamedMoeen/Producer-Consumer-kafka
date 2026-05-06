@@ -30,7 +30,8 @@ public class ConsumerClass {
 
         int rec = 0;
         List<Long> responses = new ArrayList<>();
-        while(rec<1000){
+        List<Long> latencies = new ArrayList<>();
+        while(rec<10000){
             long start = System.currentTimeMillis();
 
             ConsumerRecords<String,String> records = consumer.poll(Duration.ofMillis(10));
@@ -48,6 +49,8 @@ public class ConsumerClass {
                 );
 
                 System.out.println("Message:\n" + record.value());
+                String[] parts = record.value().split("\\|", 2);
+                latencies.add(System.currentTimeMillis()-Long.parseLong(parts[0]));
             }
         }
 //        for(long response:responses) {
@@ -55,7 +58,13 @@ public class ConsumerClass {
 //        }
 //        System.out.println("\n");
         Collections.sort(responses);
+        Collections.sort(latencies);
         System.out.println("Median is "+responses.get(responses.size()/2));
+        System.out.println("Median Latency is "+latencies.get(latencies.size()/2));
+//        for(long latency : latencies){
+//            System.out.println(latency+" ");
+//        }
+//        System.out.println("\n");
 
 
     }

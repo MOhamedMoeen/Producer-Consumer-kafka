@@ -19,10 +19,11 @@ public class ProducerClass {
         props.put("value.serializer",
                 "org.apache.kafka.common.serialization.StringSerializer");
         Producer<String, String> producer = new KafkaProducer<>(props);
-        ProducerRecord<String,String>record = new ProducerRecord<>("barcelona",content);
+
         List<Long> responses = new ArrayList<>();
-        for(int i = 0;i<1000;i++){
+        for(int i = 0;i<10000;i++){
             long start = System.currentTimeMillis();
+            ProducerRecord<String,String>record = new ProducerRecord<>("barcelona",start+"|"+content);
             producer.send(record,((metadata, exception) ->{
                 if(exception == null){
                     System.out.println("producer sent to topic "+metadata.topic() + "partition "+metadata.partition());
@@ -35,6 +36,7 @@ public class ProducerClass {
             responses.add(responseTimeInMillis);
         }
         Collections.sort(responses);
+
         System.out.println("Median is "+responses.get(499));
 
 
