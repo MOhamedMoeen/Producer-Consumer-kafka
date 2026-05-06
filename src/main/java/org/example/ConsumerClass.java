@@ -35,8 +35,9 @@ public class ConsumerClass {
 
             ConsumerRecords<String,String> records = consumer.poll(Duration.ofMillis(10));
             if(!records.isEmpty()){
-                long responseTimeInMillis = System.currentTimeMillis() - start;
-                responses.add(responseTimeInMillis);
+                long responseTimeInMillis = (System.currentTimeMillis() - start)/records.count();
+                for(int j = 0;j<records.count();j++)
+                    responses.add(responseTimeInMillis);
             }
             for(ConsumerRecord<String,String> record: records){
                 rec++;
@@ -49,6 +50,10 @@ public class ConsumerClass {
                 System.out.println("Message:\n" + record.value());
             }
         }
+//        for(long response:responses) {
+//            System.out.println(response+" ");
+//        }
+//        System.out.println("\n");
         Collections.sort(responses);
         System.out.println("Median is "+responses.get(responses.size()/2));
 
