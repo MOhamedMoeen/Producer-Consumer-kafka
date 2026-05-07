@@ -23,9 +23,9 @@ public class JMSProducer {
         MessageProducer producer = session.createProducer(queue);
         List<Long> responses = new ArrayList<>();
         String content = Files.readString(Paths.get("src/main/resources/message.txt"));
-        for(int i = 0;i<1000;i++){
+        for(int i = 0;i<10000;i++){
             long start = System.currentTimeMillis();
-            TextMessage message = session.createTextMessage(content);
+            TextMessage message = session.createTextMessage(start+"|"+content);
             producer.send(message);
             long responseTimeInMillis = System.currentTimeMillis() - start;
             responses.add(responseTimeInMillis);
