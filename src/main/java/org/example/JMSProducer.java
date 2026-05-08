@@ -32,6 +32,7 @@ public class JMSProducer {
             System.out.println("message sent");
 
         }
+
         producer.close();
         session.close();
         connection.close();
@@ -39,4 +40,5 @@ public class JMSProducer {
 
         System.out.println("Median is "+responses.get(499));
     }
+
 }

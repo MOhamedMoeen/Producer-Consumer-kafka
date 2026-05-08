@@ -26,6 +26,8 @@ public class JMSConsumer  {
 
             String[] parts =
                     textMessage.getText().split("\\|", 2);
+            System.out.println(parts[0]);
+            System.out.println(start);
             long latency =cur-Long.parseLong(parts[0]);
             responses.add(responseTimeInMillis);
             latencies.add(latency);
